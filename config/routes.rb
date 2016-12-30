@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
 
+  get 'users/new'
+
+  get  '/signup',  to: 'users#new'
+
+
+  get 'pages/home'
+
+  get 'pages/about'
+
   resources :products
 
   root 'products#index'

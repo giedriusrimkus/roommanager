@@ -1,6 +1,7 @@
 <h1>Showing A product</h1>
 <p>Product: <%= @product.name %></p>
-<p>Price: <%= @product.price %></p>
+<p>Price: <%= number_to_currency(@product.price, :unit => "€") %></p>
 <p>Description: <%= @product.description %></p>
 <p>Submitted: <%= @product.created_at %></p>
 <p>Updated: <%= @product.updated_at %></p>
+<p><%= link_to "All Products", products_path %></p>
