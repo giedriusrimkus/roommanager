@@ -1,2 +1,13 @@
 <h1>Sign up</h1>
-<p>This will be a signup page for new users.</p>
+<%= form_for(@user) do |f| %>
+	<%= render 'shared/error_messages' %>
+<%= f.text_field :name, class: "form-control", placeholder: "Name" %>
+<br>
+<%= f.email_field :email, class: "form-control", placeholder: "Email"%>
+<br>
+<%= f.password_field :password, class: "form-control", placeholder: "Password" %>
+<br>
+<%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirmation" %>
+
+<%= f.submit "Create my account", class: "btn btn-default" %>
+<% end %>
