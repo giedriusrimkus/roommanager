@@ -1,0 +1,42 @@
+<h1><%= @room.name %></h1>
+<p><%=  @room.description %></p>
+<p>
+<% if current_user.rooms.include? @room %>
+	<%= link_to "Leave Room", leave_room_path %>
+<% else %>
+	<%= link_to "Join Room", join_room_path %>
+<% end %>
+</p>
+<% if @room.users.any? %>
+	<ol>
+	<% @room.users.each do |user| %>
+		<li>
+			<%= gravatar_for user, size: 50 %>
+			<%= link_to user.name, user %>
+			<ul>
+			<% last_user_products = user.products.last(3).reverse %>
+			<% last_user_products.each do |product| %>
+				<li>
+					<p><%= time_ago_in_words(product.created_at) %> ago | <%= product.name %>, <%= number_to_currency(product.price, :unit => "€") %></p>
+					<p><%= product.description %></p>
+				</li>
+			<% end %>
+			<p>...</p>
+			<% user_products = user.products %>
+			<p>Total Sum: <%= number_to_currency(user_products.sum(:price), :unit => "€") %></p>
+			</ul>
+		</li>
+	<% end %>
+	</ol>
+<% else %>
+	<p>No tentants in this room :(</p>
+	<p><%= link_to "Join this Room", join_room_path %> | Invite to Join</p>
+<% end %>
+<% if @room.users.include? current_user %>
+	<h1>Create new product</h1>
+	<% @product = Product.new %>
+	<%= render 'products/form' %>
+<% end %>
+<p>Room Created: <%= @room.created_at %></p>
+<p>Room Details Updated: <%= @room.updated_at %></p>
+<p><%= link_to "All Rooms", rooms_path %></p>

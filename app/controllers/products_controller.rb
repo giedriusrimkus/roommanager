@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+	before_action :logged_in_user, except: [:index, :show]
 	
 	def index
 		@products = Product.all.order('created_at DESC')
@@ -15,17 +16,16 @@ class ProductsController < ApplicationController
 
 	def create
 
-		@product = Product.new(product_params)
+		@product = current_user.products.build(product_params)
 
 		if @product.save
-			flash[:success] = "Product submitted"
-			redirect_to @product
+			flash[:success] = "Product submitted!"
+			redirect_to root_path # user_path(current_user.id)
 		else
-			flash[:danger] = "Error coccured"
+			flash[:danger] = "Error coccured!"
 			render :new
 		end
 	end
-
 
 	def edit
 		@product = Product.find(params[:id])
@@ -35,7 +35,7 @@ class ProductsController < ApplicationController
 		@product = Product.find(params[:id])
 		if @product.update(product_params)
 			flash[:success] = "Product updated"
-			redirect_to @product
+			redirect_to root_path
 		else
 			flash[:danger] = "Error updating product!"
 			render :edit
@@ -46,7 +46,7 @@ class ProductsController < ApplicationController
 		@product = Product.find(params[:id])
 		@product.destroy
 		flash[:success] = "Product deleted"
-		redirect_to products_path
+		redirect_to root_path
 	end
 
 	private

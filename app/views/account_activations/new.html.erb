@@ -1,0 +1,8 @@
+<h1>Re-sent account activation email</h1>
+<%= form_for(:account_activation, url: account_activations_path) do |f| %>
+<%= f.label :email %>
+<%= f.email_field :email, class: 'form-control' %>
+
+<%= f.submit "Submit", class: "btn btn-default" %>
+<% end %>
+

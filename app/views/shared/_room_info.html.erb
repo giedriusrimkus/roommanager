@@ -1,0 +1,15 @@
+<% current_user.rooms.each do |room| %>
+<h1><%= room.name %></h1>
+<p><%= room.description %></p>
+<p>
+<%= link_to "Leave Room", leave_room_path(room.id), class: "btn btn-default btn-xs" %>
+<%= link_to "Edit Room", root_path, class: "btn btn-default btn-xs" %>
+<%= link_to "Delete Room", root_path, class: "btn btn-default btn-xs" %>
+</p>
+<span><%= link_to "view room details", room %></span>
+<ul>
+<% room.users.each do |user|  %>
+	<li><%= user.name %></li>
+<% end %>
+</ul>
+<% end %>

@@ -1,5 +1,7 @@
 <h1>Showing A product</h1>
 <p>Product: <%= @product.name %></p>
+<% user = @product.user %></p>
+<p>By: <%= link_to user.name, user %></p>
 <p>Price: <%= number_to_currency(@product.price, :unit => "€") %></p>
 <p>Description: <%= @product.description %></p>
 <p>Submitted: <%= @product.created_at %></p>

@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+	has_many :products, dependent: :destroy
+	has_many :memberships, dependent: :destroy
+	has_many :rooms, through: :memberships
+
 	attr_accessor :remember_token, :activation_token, :reset_token
 	before_save :downcase_email
 	before_create :create_activation_digest
@@ -14,7 +18,7 @@ class User < ActiveRecord::Base
 	uniqueness: { case_sensitive: false }
 
 	has_secure_password
-	validates :password, presence: true, length: { minimum: 3 }
+	# validates :password, presence: true, length: { minimum: 3 }
 
 	# Returns the hash digest of the given string.
 	def User.digest(string)
@@ -68,6 +72,12 @@ class User < ActiveRecord::Base
 	def password_reset_expired?
 		reset_sent_at < 2.hours.ago
 	end
+
+	 def resend_activation_email
+	     self.send(:create_activation_digest)
+	     self.send_activation_email
+	     self.save
+  	end
 
 	private
 

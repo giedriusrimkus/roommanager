@@ -1,2 +1,53 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<% if logged_in? %>
+	<div class="row">
+		<aside class="col-md-4">
+			<section class="info">
+				<%= render 'shared/user_info' %>
+			</section>
+			<section class="info">
+				<% if current_user.rooms.any? %>
+					<%= render 'shared/room_info' %>
+				<% else %>
+					<p>You are not a member of any rooms at the moment. Create a new room and ask your friends to join it or join one of the exsiting rooms!</p>
+				<% end %>
+			</section>
+			<% if current_user.rooms.any? %>
+				<section class="info">
+					<h1>New Product</h1>
+					<br>
+					<% @product = Product.new %>
+					<%= render 'products/form' %>
+				</section>
+			<% end %>
+		</aside>
+		<div class="col-md-8">
+			<section class="info">
+				<h1>Room Statistics</h1>
+				<% if current_user.rooms.any? %>
+					<%= render 'shared/room_stats' %>
+				<% else %>
+				<p>Nothing to show.</p>
+				<% end %>
+			</section>
+		</div>
+	</div>
+<% else %>
+	<div class="center jumbotron">
+	  <h1>Welcome to the Room Manager!</h1>
+
+	  <h2>
+	    This simple web app will help you and your roommates  manage your shared expenses.
+	  </h2>
+	  <p></p>
+
+	  <div class="steps">
+	  <p>
+	  STEP 1: Register<br>
+	  STEP 2: Create a New Room or Join an Exsiting One<br>
+	  STEP 3: Invite Your Roomies to Join the Same Room<br>
+	  ENJOY!
+	  </p>
+	  </div>
+	  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+	</div>
+<% end %>

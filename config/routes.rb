@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
 
+  resources :rooms
+  get 'rooms', to: 'rooms#index'
+  match 'rooms/:id/join', to: 'rooms#join', :via => :get, :as => :join_room
+  match 'posts/:id/leave' => 'rooms#leave', :via => :get, :as => :leave_room
+
+  get 'rooms/new'
+
   get 'password_resets/new'
 
   get 'password_resets/edit'
@@ -15,10 +22,11 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-  resources :account_activations, only: [:edit]
+  resources :account_activations, only: [:new, :create, :edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
-
+  post   '/resend_activation/:email'  =>  'account_activations#resend_activation',
+                                        :constraints => { :email => /[^\/]+/ }
 
 
 
@@ -26,9 +34,10 @@ Rails.application.routes.draw do
 
   get 'pages/about'
 
-  resources :products
+  resources :products #,          only: [:create, :destroy]
 
-  root 'products#index'
+  root 'pages#home'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

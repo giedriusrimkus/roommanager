@@ -9,11 +9,13 @@ class SessionsController < ApplicationController
 		if user.activated?
 			log_in user
 			params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-			flash[:success] = 'Logged In'
-			redirect_back_or user
+			flash[:success] = 'Welcome back!'
+			redirect_back_or root_path
 		else
 			message = "Account not activated. "
 			message += "Check your email for the activation link."
+			message += " #{view_context.link_to "Resend Activation E-Mail", { action: "resend_activation",
+                controller: "account_activations", email: user.email }, method: :post}"
 			flash[:warning] = message
 			redirect_to root_url
 		end

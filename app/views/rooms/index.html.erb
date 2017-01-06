@@ -1,0 +1,10 @@
+<h1>All Rooms</h1>
+<% @rooms.each do |room| %>
+<ul>
+<li>
+	<p>Room Name: <%= link_to room.name, room %></p>
+	<p>Description: <%= room.description %></p>
+	<p>Created: <%= room.created_at %></p>
+	<p>Updated: <%= room.updated_at %></p>
+</ul>
+<% end %>

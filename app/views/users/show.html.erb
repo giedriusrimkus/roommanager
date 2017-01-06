@@ -1,2 +1,23 @@
 <%= gravatar_for @user %>
 <%= @user.name %>
+<p>
+	<% @user.rooms.each do |room| %>
+	<%= link_to room.name, room %><br>
+	<%= room.description %>
+	<% end %>
+</p>
+
+<% if @user.products.any? %>
+	<p>Number of products: <%= @user.products.count %></p>
+
+	<ol>
+	<% @user.products.each do |product| %>
+		<li>
+			Product Name: <%= product.name %><br>
+			Product Price: <%= number_to_currency(product.price, :unit => "€") %>
+		</li>
+	<% end %>
+	</ol>
+	<% user_products = @user.products %>
+	<p>Total Sum: <%= number_to_currency(user_products.sum(:price), :unit => "€") %></p>
+<% end %>

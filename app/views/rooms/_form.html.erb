@@ -1,0 +1,7 @@
+<%= form_for(@room) do |f| %>
+<%= f.text_field :name, class: "form-control", placeholder: "Room Name" %>
+<br>
+<%= f.text_field :description, class: "form-control", placeholder: "Description / Address of Room / Apartament"%>
+<br>
+<%= f.submit yield(:button_text), class: "btn btn-default" %>
+<% end %>

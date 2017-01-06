@@ -1,6 +1,6 @@
 <%= form_for @product do |f| %>
-	<%= f.text_field :name, class: "form-control", placeholder: "Name * " %><br>
-	<%= f.text_area :description, class: "form-control", rows: "3", placeholder: "Descprtion (Optional)" %><br>
-	<%= f.text_field :price, class: "form-control", placeholder: "Price" %><br>
-	<%= f.submit "Save", class: "btn btn-default" %>
+	<p><%= f.text_field :name, class: "form-control", placeholder: "Name* " %></p>
+	<p><%= f.text_area :description, class: "form-control", rows: "1", placeholder: "Descprtion (Optional)" %></p>
+	<p><%= f.text_field :price, class: "form-control", placeholder: "Price* " %></p>
+	<%= f.submit "Submit", class: "btn btn-default" %>
 <% end %>
