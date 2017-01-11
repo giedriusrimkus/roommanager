@@ -1,10 +1,13 @@
 <% if logged_in? %>
 	<div class="row">
 		<aside class="col-md-4">
-			<section class="info">
-				<%= render 'shared/user_info' %>
+			<section class="user_info">
+				<%= gravatar_for current_user, size: 50 %>
+				<h1><%= current_user.name %></h1>
+				<span><%= link_to "view my profile", current_user %></span>
+				<span></span>
 			</section>
-			<section class="info">
+			<section class="room_info">
 				<% if current_user.rooms.any? %>
 					<%= render 'shared/room_info' %>
 				<% else %>
@@ -12,16 +15,14 @@
 				<% end %>
 			</section>
 			<% if current_user.rooms.any? %>
-				<section class="info">
-					<h1>New Product</h1>
-					<br>
-					<% @product = Product.new %>
-					<%= render 'products/form' %>
+				<section class="product_form">
+					<h1>Enter New Product</h1>
+					<%= render 'shared/products_form' %>
 				</section>
 			<% end %>
 		</aside>
 		<div class="col-md-8">
-			<section class="info">
+			<section class="room_stats">
 				<h1>Room Statistics</h1>
 				<% if current_user.rooms.any? %>
 					<%= render 'shared/room_stats' %>
@@ -42,7 +43,7 @@
 
 	  <div class="steps">
 	  <p>
-	  STEP 1: Register<br>
+	  STEP 1: Sign Up & Login<br>
 	  STEP 2: Create a New Room or Join an Exsiting One<br>
 	  STEP 3: Invite Your Roomies to Join the Same Room<br>
 	  ENJOY!

@@ -20,10 +20,15 @@
 $grayMediumLight: #eaeaea;
 $grayLighter: #eaeaea;
 
+.footer {
+  height: 25px;
+  margin-bottom: 0px;
+}
 /* Universal */ 
 
 body {
   padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .col-centered {
@@ -31,6 +36,14 @@ body {
     margin: 0 auto;
 }
 
+.alert-centered {
+  text-align: center;
+}
+
+.alert {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 .center {
   text-align: center;
   h1 {
@@ -44,6 +57,20 @@ body {
 
 div.steps {
   text-align: left;
+}
+
+/* froms */
+
+.price-form {
+}
+
+.gravatar_edit {
+  float: left;
+  margin-bottom: 10px;
+}
+
+.edit_profile {
+  clear: right;
 }
 
 /* typography */
@@ -72,7 +99,7 @@ p {
   line-height: 1.7em;
 }
 
-section.info {
+.user_info {
   margin-top: 5px;
   padding: 10px 0;
   border-bottom: 1px solid #eeeeee;
@@ -83,6 +110,51 @@ section.info {
     letter-spacing: -1px;
     margin-bottom: 3px;
     margin-top: 0px;
+  }
+}
+
+.room_info {
+  margin-top: 5px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eeeeee;
+
+  h1 {
+    font-size: 1.4em;
+    text-align: left;
+    letter-spacing: 0px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  p.description {
+
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding: 0px
+
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 5px;
+  }
+}
+
+.room_stats {
+
+  h1 {
+  font-size: 2em;
+  text-align: center;
+  letter-spacing: 0px;
+  }
+}
+
+.product_form {
+
+ h1 {
+    font-size: 2em;
+    text-align: center;
+    letter-spacing: 0px;
   }
 }
 
@@ -146,6 +218,38 @@ p.product_buttons {
   float: left;
   margin-right: 10px;
 }
+
+/* footer */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #777;
+
+  a {
+    color: #555;
+  }
+
+  a:hover {
+    color: #222;
+  }
+
+  small {
+    float: left;
+  }
+
+  ul {
+    float: right;
+    list-style: none;
+
+    li {
+      float: left;
+      margin-left: 15px;
+    }
+  }
+}
+
 
 
 /* Errors */

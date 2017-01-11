@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   match 'rooms/:id/join', to: 'rooms#join', :via => :get, :as => :join_room
   match 'posts/:id/leave' => 'rooms#leave', :via => :get, :as => :leave_room
 
+  match 'users/:id' => 'users#cancel_account', :via => :delete, :as => :cancel_account
+
+
   get 'rooms/new'
 
   get 'password_resets/new'

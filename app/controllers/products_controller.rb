@@ -22,8 +22,7 @@ class ProductsController < ApplicationController
 			flash[:success] = "Product submitted!"
 			redirect_to root_path # user_path(current_user.id)
 		else
-			flash[:danger] = "Error coccured!"
-			render :new
+			render 'pages/home'
 		end
 	end
 

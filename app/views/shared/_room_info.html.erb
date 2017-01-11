@@ -1,15 +1,19 @@
 <% current_user.rooms.each do |room| %>
 <h1><%= room.name %></h1>
-<p><%= room.description %></p>
-<p>
-<%= link_to "Leave Room", leave_room_path(room.id), class: "btn btn-default btn-xs" %>
-<%= link_to "Edit Room", root_path, class: "btn btn-default btn-xs" %>
-<%= link_to "Delete Room", root_path, class: "btn btn-default btn-xs" %>
-</p>
+<p class="description"><%= room.description %></p>
 <span><%= link_to "view room details", room %></span>
+<% if current_user.activated == false %>
+	<p>
+	<%= link_to "Leave Room", leave_room_path(room.id), class: "btn btn-default btn-xs" %>
+	<%= link_to "Edit Room", edit_room_path(room.id), class: "btn btn-default btn-xs" %>
+	<%= link_to "Delete Room", room_path(room.id), method: :delete, data: { confirm: "You sure?" }, class: "btn btn-default btn-xs" %>
+	</p>
+<% end %>
+<p> </p>
+<h1>Roommates:</h1>
 <ul>
 <% room.users.each do |user|  %>
-	<li><%= user.name %></li>
+	<li><%= link_to user.name, user %></li>
 <% end %>
 </ul>
 <% end %>

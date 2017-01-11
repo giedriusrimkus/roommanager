@@ -1,8 +1,14 @@
-<h1>Re-sent account activation email</h1>
-<%= form_for(:account_activation, url: account_activations_path) do |f| %>
-<%= f.label :email %>
-<%= f.email_field :email, class: 'form-control' %>
-
-<%= f.submit "Submit", class: "btn btn-default" %>
-<% end %>
-
+<h1>Re-sent Account Activation Email</h1>
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-centered">
+		<div class="form-group">
+			<%= form_for(:account_activation, url: account_activations_path) do |f| %>
+			<p>
+				<%= f.label :email, "Please enter your email address below:" %>
+				<%= f.email_field :email, placeholder: "Email", class: 'form-control' %>
+			</p>
+			<p><%= f.submit "Submit", class: "btn btn-default" %></p>
+			<% end %>
+		</div>
+	</div>
+</div>

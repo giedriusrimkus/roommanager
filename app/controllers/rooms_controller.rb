@@ -15,11 +15,11 @@ class RoomsController < ApplicationController
 
    def create
   	@room = Room.new(room_params)
+    current_user.rooms << @room
   	if @room.save
   		flash[:success] = "Room Created"
-  		redirect_to @room
+  		redirect_to root_path
   	else
-  		flash[:danger] = "Error occured"
   		render 'new'
   	end
   end
@@ -31,8 +31,8 @@ class RoomsController < ApplicationController
   def update
     @room = Room.find(params[:id])
     if @room.update(room_params)
-      flash[:success] = "Room details updated"
-      redirect_to @room
+      flash[:success] = "Room details updated!"
+      redirect_to root_path
     else
       flash[:danger] = "Error updating room details!"
       render :edit
@@ -42,8 +42,8 @@ class RoomsController < ApplicationController
   def destroy
     @room = Room.find(params[:id])
     @room.destroy
-    flash[:success] = "Room deleted"
-    redirect_to products_path
+    flash[:info] = "Room deleted"
+    redirect_to root_path
   end
 
   def join

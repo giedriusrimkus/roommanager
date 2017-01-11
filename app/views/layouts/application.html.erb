@@ -26,15 +26,23 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse main_nav" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><%= link_to "Contact", root_path %></li>
+        <!-- <li> link_to "Contact", root_path %></li> -->
         <% if logged_in? %>
+        <li>
+          <%= link_to root_path do %>
+          <span class="glyphicon glyphicon-dashboard"></span>&nbsp;Dashboard
+          <% end %>
+        </li>
           <% unless current_user.rooms.any? %>
             <li><%= link_to "Create New Room", new_room_path %></li>
             <li><%= link_to "Join an Existing Room", rooms_path %></li>
           <% end %>
-        <% end %>
-        <% unless logged_in? %>
-         <li><a href="#">Some Link</a></li>
+        <% else %>
+        <li>
+          <%= link_to root_path do %>
+            <span class="glyphicon glyphicon-home"></span>&nbsp;Home
+          <% end %>
+        </li>
         <% end %>
         <% if current_user.try(:admin?) %>
         <li class="dropdown">
@@ -59,23 +67,32 @@
       </form> -->
       <ul class="nav navbar-nav navbar-right">
         <% unless logged_in? %>
-         <li><%= link_to "Sign up", signup_path %></li>
+         <li>
+          <%= link_to signup_path do %>
+            <span class="glyphicon glyphicon-user"></span>&nbsp;Sign Up
+          <% end %>
+         </li>
         <% end %>
         <% if logged_in? %>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= gravatar_for current_user, size: 25  %><%= current_user.name %> <span class="caret"></span></a>
+        <li>
+          <%= link_to logout_path, :method => :delete do %>
+          <span class="glyphicon glyphicon-log-out"></span>&nbsp;Logout
+          <% end %>
+        </li>
+         <!--  <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">%= gravatar_for current_user, size: 25  %>%= current_user.name %> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Dashboard", root_path %></li>
-              <li><%= link_to "My Profile", current_user %></li>
-              <li><%= link_to "Update My Profile", edit_user_path(current_user) %></li>
-              <% current_user.rooms.each do |room| %>
-              <li><%= link_to "Room: #{room.name}", room %></li>
-              <% end %>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><%= link_to "Log out", logout_path, method: :delete %></li>
+              <li> link_to "Dashboard", root_path %></li> -->
+              <!-- <li> link_to "My Profile", current_user %></li> -->
+              <!-- <li>%= link_to "Update My Profile", edit_user_path(current_user) %></li> -->
+              <!--  current_user.rooms.each do |room| %>
+              <li>= link_to "Room: #{room.name}", room %></li>
+               end %> -->
+              <!-- <li><a href="#">Something else here</a></li> -->
+              <!-- <li role="separator" class="divider"></li>
+              <li> link_to "Logout", logout_path, method: :delete %></li>
             </ul>
-          </li>
+          </li> -->
           <!-- <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -85,22 +102,27 @@
             </ul>
           </li> -->
         <% else %>
-          <li><%= link_to "Log in", login_path %></li>
+          <li>
+            <%= link_to login_path do %>
+              <span class="glyphicon glyphicon-log-in"></span>&nbsp;Login
+            <% end %>
+          </li>
         <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-	<div class="container-fluid">
-		<div class="row">
-    			<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-centered">
-            <% flash.each do |message_type, message| %>
-          <div class="alert alert-<%= message_type %>"><%= message %></div>
-          <% end %>
-  				<%= yield %>
-          <!-- debug(params) if Rails.env.development? -->
-			</div>
-		</div>
-	</div>
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-centered">
+        <% flash.each do |message_type, message| %>
+          <div class="alert alert-<%= message_type %> center"><%= message %></div>
+        <% end %>
+        <%= yield %>
+        <!-- debug(params) if Rails.env.development? -->
+    </div>
+  </div>
+</div>
+<%= render 'layouts/footer' %>
 </body>
 </html>
