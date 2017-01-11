@@ -32,7 +32,9 @@ Rails.application.routes.draw do
                                         :constraints => { :email => /[^\/]+/ }
 
 
-
+  get 'contact', to: 'messages#new', as: 'contact'
+  post 'contact', to: 'messages#create'
+  
   get 'pages/home'
 
   get 'pages/about'

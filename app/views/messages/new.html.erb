@@ -1,0 +1,14 @@
+<h1>Contact Site Admin</h1>
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-centered">
+    <div class="form-group">
+      <p>Please fill in the contact form below. I'll get back you you as soon as possible.</p>
+      <%= form_for @message, url: contact_path do |f| %>
+        <p><%= f.text_field :name, :required => true, class: "form-control", placeholder: "Name * " %></p>
+        <p><%= f.email_field :email, :required => true, class: "form-control", placeholder: "Email * " %></p>
+        <p><%= f.text_area :content, :required => true, class: "form-control", rows: "10", placeholder: "Message *" %></p>
+        <p><%= f.submit "Send", class: "btn btn-default" %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

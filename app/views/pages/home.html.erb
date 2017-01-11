@@ -36,19 +36,32 @@
 	<div class="center jumbotron">
 	  <h1>Welcome to the Room Manager!</h1>
 
-	  <h2>
-	    This simple web app will help you and your roommates  manage your shared expenses.
-	  </h2>
-	  <p></p>
-
-	  <div class="steps">
 	  <p>
+	    This simple web app will help you and your roommates manage your shared expenses. It is simple, free and easy to use. 
+	  <p>
+	  <p class="steps">
+	  	(1) Sign Up & Login<br>
+	  	(2) Create a New Room or Join an Exsiting One<br>
+	  	(3) Invite Your Roomies to Join the Same Room<br>
+	  	(4) Enter products you buy into the system
+	  </p>
+
+	 <!--  <div class="center">
+	  	<ol>
+		  	<li>Sign Up & Login</li>
+		  	<li>Create a New Room or Join an Exsiting One</li>
+		  	<li>Invite Your Roomies to Join the Same Room</li>
+		  	<li>Enter purchases you made into the system</li>
+	  	</ol>
+	  	</div> -->
+	  <!-- <p>
 	  STEP 1: Sign Up & Login<br>
 	  STEP 2: Create a New Room or Join an Exsiting One<br>
 	  STEP 3: Invite Your Roomies to Join the Same Room<br>
 	  ENJOY!
-	  </p>
-	  </div>
-	  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+	  </p> -->
+	  
+	  <%= link_to "Sign Up", signup_path, class: "btn btn-lg btn-default" %>
+	  <%= link_to "Login", login_path, class: "btn btn-lg btn-default" %>
 	</div>
 <% end %>

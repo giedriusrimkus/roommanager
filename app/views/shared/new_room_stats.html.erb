@@ -1,0 +1,10 @@
+<% if current_user.rooms.count == 1 %>
+	<% current_user_room = current_user.rooms.first %>
+	<% current_user_room.users.each do |user| %>
+	<% end %>
+
+<% else %>
+	<p>You are member of more than one room at the moment. Please leave one of the rooms!</p>
+<% end%>
+
+<% %>
