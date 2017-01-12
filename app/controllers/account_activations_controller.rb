@@ -12,7 +12,7 @@ class AccountActivationsController < ApplicationController
 			else
 				# @user.create_activation_digest
 				@user.resend_activation_email
-				flash[:info] = "Activation email re-sent."
+				flash[:info] = "Activation email re-sent. Please check your email for activation link."
 				redirect_to root_url
 			end
 		else
@@ -27,12 +27,19 @@ class AccountActivationsController < ApplicationController
 		if user && !user.activated? && user.authenticated?(:activation, params[:id])
 			user.activate
 			log_in user
-			flash[:success] = "Account activated!"
-			redirect_to user
+			flash[:success] = "<strong>Success!</strong> Account activated!"
+			redirect_to root_url
 		else
-			flash[:danger] = "Invalid activation link"
+			flash[:danger] = "<strong>Error!</strong> Invalid activation link!"
 			redirect_to root_url
 		end
+	end
+
+	def resend_activation
+		@user = User.find_by(email: params[:email])
+		@user.resend_activation_email
+		flash[:info] = "Activation email re-sent. Please check your email for activation link."
+		redirect_to root_url
 	end
 
 end

@@ -12,9 +12,9 @@ class SessionsController < ApplicationController
 			flash[:success] = 'Welcome back!'
 			redirect_back_or root_path
 		else
-			message = "Account not activated. "
-			message += "Check your email for the activation link."
-			message += " #{view_context.link_to "Resend Activation E-Mail", { action: "resend_activation",
+			message = "<strong>Account not activated. </strong>"
+			message += "Check your email for the activation link or "
+			message += " #{view_context.link_to "resend activation email", { action: "resend_activation",
                 controller: "account_activations", email: user.email }, method: :post}"
 			flash[:warning] = message
 			redirect_to root_url
@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
 
   def destroy
 	log_out if logged_in?
-  	flash[:success] = 'Logged Out'
+  	flash[:info] = 'Logged Out'
     redirect_to root_url
   end
 
