@@ -1,16 +1,5 @@
 <%= form_for(@room) do |f| %>
-	<% if @room.errors.any? %>
-		<div id="error_explanation">
-			<div class="alert alert-danger">
-				The form contains <%= pluralize(@room.errors.count, "error") %>.
-			</div>
-			<ul>
-			<% @room.errors.full_messages.each do |msg| %>
-				<li><%= msg %></li>
-			<% end %>
-			</ul>
-		</div>
-	<% end %>
+	<%= render 'shared/error_messages', object: @room %>
 <p><%= f.text_field :name, class: "form-control", placeholder: "Room Name" %></p>
 <p><%= f.text_area :description, class: "form-control", placeholder: "Description (Optional)" %></p>
 <p><%= f.submit yield(:button_text), class: "btn btn-default" %></p>

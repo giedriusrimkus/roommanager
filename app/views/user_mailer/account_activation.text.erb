@@ -1,5 +1,9 @@
+Welcome to The Room Manager
+
 Hi <%= @user.name %>,
 
-Welcome to the Room Manager! Click on the link below to activate your account:
-
+Thanks for signing up. To start using the app, please verify your email address by clicking the link below:
 <%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
+
+Thanks,
+The Room Manager Team

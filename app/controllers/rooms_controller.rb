@@ -51,7 +51,7 @@ class RoomsController < ApplicationController
     current_user.rooms << @room
     current_user.save
     flash[:success] = "Joined #{@room.name}!"
-    redirect_to @room
+    redirect_to root_path
   end
 
   def leave
@@ -59,7 +59,7 @@ class RoomsController < ApplicationController
     current_user.rooms.delete(@room)
     current_user.save
     flash[:info] = "Left #{@room.name}"
-    redirect_to current_user
+    redirect_to root_path
   end
 
 

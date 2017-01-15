@@ -1,5 +1,5 @@
 <%= form_for(@user) do |f| %>
-	<%= render 'error_messages' %>
+	<%= render 'shared/error_messages', object: @user %>
 <p><%= f.text_field :name, class: "form-control", placeholder: "Name" %></p>
 <p><%= f.email_field :email, class: "form-control", placeholder: "Email"%></p>
 <p><%= f.password_field :password, class: "form-control", placeholder: "Password" %></p>

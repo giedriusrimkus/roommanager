@@ -1,10 +1,12 @@
-<h1>The Room Manager App</h1>
+<h1>Welcome to The Room Manager</h1>
 
 <p>Hi <%= @user.name %>,</p>
 
 <p>
-Welcome to the TheRoomManager! Click on the link below to activate your account:
+Thanks for signing up. To start using the app, please verify your email address by clicking the link below:<br>
+<%= link_to edit_account_activation_url(@user.activation_token,
+                                                    email: @user.email), edit_account_activation_url(@user.activation_token,
+                                                    email: @user.email) %></p>
+<p>Thanks,<br>
+The Room Manager Team
 </p>
-
-<%= link_to "Activate", edit_account_activation_url(@user.activation_token,
-                                                    email: @user.email) %>
