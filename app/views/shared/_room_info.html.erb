@@ -2,7 +2,8 @@
 <h1><%= room.name %></h1>
 <p class="description"><%= room.description %></p>
 <!-- <span> link_to "view room details", room %></span> -->
-<% if @user == current_user %>
+<% current_user_membership = Membership.find_by_room_id(room.id) %>
+<% if current_user.rooms.first.id == current_user_membership.user_id %>
 	<p>
 	<%= link_to "Leave Room", leave_room_path(room.id), class: "btn btn-default btn-xs" %>
 	<%= link_to "Edit Details", edit_room_path(room.id), class: "btn btn-default btn-xs" %>

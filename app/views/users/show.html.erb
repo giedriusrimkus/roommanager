@@ -1,3 +1,4 @@
+<% provide(:title, @user.name) %>
 <div class="row">
   <aside class="col-md-4">
     <section class="user_info">
@@ -20,7 +21,11 @@
 	</aside>
 	<div class="col-md-8">
 	<section class="product_info">
+	<% if @user == current_user %>
 		<h1>My Products</h1>
+	<% else %>
+		<h1>Products by <%= @user.name %></h1>
+	<% end %>
 		<% if @user.products.any? %>
 			<p>Number of products: <%= @user.products.count %></p>
 			<% user_products = @user.products %>
@@ -49,7 +54,7 @@
 				<% end %>
 			</ol>
 		<% else %>
-			<p>You don't have any products yet. </p>
+			<p>No products yet.</p>
 		<% end %>
 	</section>
 	</div>

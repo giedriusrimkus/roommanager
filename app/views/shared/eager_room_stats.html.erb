@@ -1,4 +1,0 @@
-<% result = current_user.eager_load(:rooms => [:users => :products ]).order("rooms.created_at DESC") %>
-<% result.each do |p|  %>
-	<%= d.name %>
-<% end %>

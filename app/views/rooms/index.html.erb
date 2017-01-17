@@ -1,19 +1,26 @@
-<h1>All Rooms</h1>
-<% @rooms.each do |room| %>
-<ul class="all_rooms">
-<li>
-	<p class="name"><%=room.name %></p>
-	<p class="description"><%= room.description %></p>
-	<p class="buttons">
-		<% if current_user.rooms.include? @room %>
-			<%= link_to "Leave Room", leave_room_path(room.id) %>
-		<% else %>
-			<%= link_to "Join Room", join_room_path(room.id), class: "btn btn-xs btn-default" %>
-		<% end %>
-		<% if current_user.try(:admin?) %>
-			<%= link_to "Delete Room", room_path(room.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" %>
-			<%= link_to "Edit Room", edit_room_path(room.id), class: "btn btn-default btn-xs" %>
-		<% end %>
-	</p>
-</ul>
+<% provide(:title, "Join A Room" %>
+<h1>Rooms</h1>
+<% if @rooms.any? %>
+	<% @rooms.each do |room| %>
+	<ul class="rooms_index">
+	<li class="<%= "current_room" if current_user.rooms.include? room %>">
+		<p class="name"><%=room.name %></p>
+		<p class="description"><%= room.description %></p>
+		<p class="buttons center">
+<!-- 			if current_user.rooms.include? room %>
+ -->
+			
+					<%= link_to "Leave Room", leave_room_path(room.id), class: "btn btn-xs btn-default" if current_user.rooms.include? room %>
+				
+					<%= link_to "Join Room", join_room_path(room.id), class: "btn btn-xs btn-default #{'disabled' if current_user.rooms.any? }" unless current_user.rooms.include? room %>
+				
+			<% if current_user.try(:admin?) %>
+				<%= link_to "Delete Room", room_path(room.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" %>
+				<%= link_to "Edit Room", edit_room_path(room.id), class: "btn btn-default btn-xs" %>
+			<% end %>
+		</p>
+	</ul>
+	<% end %>
+<% else %>
+	<p>There are no room at the moment. Why not creating an new room?</p>
 <% end %>

@@ -1,17 +1,19 @@
+<% provide(:title, "All Products" %>
 <h1>All Products</h1>
+<ul class="product_history">
 <% @products.each do |product| %>
-<ul>
-<li>
-	<p>Product: <%= link_to product.name, product %></p>
-	<p>Price: <%= number_to_currency(product.price, :unit => "€") %></p>
-	<% user = product.user %></p>
-	<p>By: <%= link_to user.name, user %></p>
-	<p>Description: <%= product.description %></p>
-	<p>Submitted: <%= product.created_at %></p>
-	<p>Updated: <%= product.updated_at %></p>
-	<p>
-	<%= link_to 'Delete', product_path(product), class: "btn btn-default btn-xs", :method => :delete, data: { confirm: 'Are you sure?' } %>
-	<%= link_to ' Edit  ', edit_product_path(product), class: "btn btn-default btn-xs" %>
-	</p>
-</ul>
+	<li>
+		<% if current_user.try(:admin?)  %>
+			<%= link_to "Edit", edit_product_path(product.id), class: "btn btn-default btn-xs" %>
+			<%= link_to "Delete", product_path(product.id), class: "btn btn-default btn-xs", method: :delete, data: { confirm: "You sure?" } %>
+		<% end %>
+		<span class="date"><%= product.created_at.strftime('%b %d, %Y %H:%M') %></span>
+		<span class="name"><%= product.name %></span>
+		<span class="price"><%= number_to_currency(product.price, :unit => "€") %></span>
+		<span class="author">by <%= User.find(product.user_id).name %></span>
+		<% unless product.description == "" %>
+				<p class="description">(<%= product.description %>)</p>
+		<% end %>
+	</li>
 <% end %>
+</ul>
