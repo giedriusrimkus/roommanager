@@ -1,5 +1,4 @@
 class ProductsController < ApplicationController
-	before_action :logged_in_user, except: [:index, :show]
 	
 	def index
 		@products = Product.all.order('created_at DESC')
