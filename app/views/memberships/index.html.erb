@@ -1,0 +1,25 @@
+<h1>Memberships#index</h1>
+
+
+<ol>
+<% @memberships.each do |membership| %>
+	<li>
+		<p>Membership ID: <%= membership.id %></p>
+		<p>User ID: <%= membership.user_id %> <%= User.find(membership.user_id).name %></p>
+		<p>Room ID: <%= membership.room_id %> <%= Room.find(membership.room_id).name %></p>
+		<p>Created at: <%= membership.created_at %></p>
+	</li>
+<% end %>
+</ol>
+
+<h1>Rooms</h1>
+<% rooms = Room.all %>
+<% rooms.each do |rooms| %>
+<ul>
+	<li>
+		<p>Room ID: <%= rooms.id %></p>
+		<p>Room Name <%= rooms.name %></p>
+	</li>
+</ul>
+<% end %>
+

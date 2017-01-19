@@ -1,41 +1,48 @@
 <% if current_user.rooms.count == 1 %>
 	<% ids = current_user.rooms.first.users.map(&:id) %>
-	<% room_products = Product.where(user_id: ids).order("created_at DESC")  %>
-
 	<% room_users = User.where(id: ids).order("created_at DESC") %>
-
+	
 	<ul class="room_stats center">
 	<% room_users.each do |user| %>
 		<li>
-			<p><span class="name"><%= user.name %></span></p>
-			<p>No. of products: <%= user.products.count %></p>
+			<p><span class="name"><%= user.name %> (<%= user.products.count %>)</span></p>
 				<% user_products = user.products %>
 			<p>Total Cost: <span class="product_price"><%= number_to_currency(user.products.sum(:price), :unit => "€") %></span></p>
 		</li>
 	<% end %>
 	</ul>
+	
+<!-- 	 room_products = Product.where(user_id: ids).order("created_at DESC").paginate(page: params[:page])  %>
+ --> <% room_products = Product.where(user_id: ids).order("created_at DESC").paginate(:page => params[:page], :per_page => 10)  %>
+	<h1>Product History</h1>
+	<% if room_products.any? %>
+		<ul class="product_history">
+		<% room_products.each do |product| %>
+			<li>
+				<span class="date"><%= product.created_at.strftime('%b %d, %Y %H:%M') %></span>
+				<span class="name"><%= product.name %></span>
+				<span class="price"><%= number_to_currency(product.price, :unit => "€") %></span>
+				<span class="author">by <%= User.find(product.user_id).name %></span>
+				<% unless product.description == "" %>
+					<p class="description">(<%= product.description %>)</p>
+				<% end %>
+				<% unless product.created_at == product.updated_at %>
+					<small><p>Updated at: <span class="date"><%= product.updated_at.strftime('%b %d, %Y %H:%M') %></p></small>
+				<% end %>
+				<% if current_user.id == product.user_id || current_user.try(:admin?)  %>
+					<p class="buttons">
+						<%= link_to "Edit", edit_product_path(product.id), class: "btn btn-default btn-xs" %>
+						<%= link_to "Delete", product_path(product.id), class: "btn btn-default btn-xs", method: :delete, data: { confirm: "You sure?" } %>
+					</p>
+				<% end %>
+			</li>
+		<% end %>
+		</ul>
+		<%= will_paginate room_products, :previous_label => '&laquo;', :next_label => '&raquo;', :class => 'center' %>
 
-	<h1>History</h1>
-	<ul class="product_history">
-	<% room_products.each do |product| %>
-		<li>
-			<span class="date"><%= product.created_at.strftime('%b %d, %Y %H:%M') %></span>
-			<span class="name"><%= product.name %></span>
-			<span class="price"><%= number_to_currency(product.price, :unit => "€") %></span>
-			<span class="author">by <%= User.find(product.user_id).name %></span>
-			<% unless product.description == "" %>
-				<p class="description">(<%= product.description %>)</p>
-			<% end %>
-			<% if current_user.id == product.user_id || current_user.try(:admin?)  %>
-				<p class="buttons">
-					<%= link_to "Edit", edit_product_path(product.id), class: "btn btn-default btn-xs" %>
-					<%= link_to "Delete", product_path(product.id), class: "btn btn-default btn-xs", method: :delete, data: { confirm: "You sure?" } %>
-				</p>
-			<% end %>
-		</li>
+	<% else %>
+		<p class="center">There are no products in this room yet.</p>
 	<% end %>
-	</ul>
-
 <% else %>
 	<p>You are member of more than one room at the moment. Please leave one of the rooms!</p>
 <% end%>

@@ -64,7 +64,7 @@ div.steps {
   text-align: left;
 }
 
-/* froms */
+/* forms */
 
 
 /* Room Stats */
@@ -87,6 +87,11 @@ ul.product_history {
 
     margin: 3px;
     padding: 3px;
+
+    p {
+      margin: 0px;
+      padding: 0px;
+    }
 
     .name {
       font-weight: 900;
@@ -133,6 +138,39 @@ ul.product_history {
     }
   }
 }
+
+ul.pagination {
+  margin: 0px;
+
+  li {
+
+    a {
+      font-size: 12px;
+      color: black;
+    }
+    a:hover {
+      color: black;
+    }
+  }
+
+  li.active {
+
+    a {
+    background-color: #252628;
+    color: white;
+    border-color: #ddd;
+    }
+
+    a:hover {
+      background-color: #404347;
+      color: white;
+      border-color: #ddd;
+
+    }
+  }
+}
+
+
 
 ul.room_stats {
   list-style-type: none;
@@ -197,6 +235,13 @@ ul.rooms_index {
   }
 }
 
+li.current_user {
+  /*text-transform: uppercase;*/
+
+  a {
+    font-weight: 900;
+  }
+}
 
 .price-form {
 }

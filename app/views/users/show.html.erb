@@ -12,8 +12,32 @@
         <span></span>
     </section>
     <section class="room_info">
-		<% if current_user.rooms.any? %>
-			<%= render 'shared/room_info' %>
+		<% if @user.rooms.any? %>
+			<% @user.rooms.each do |room| %>
+				<h1><%= room.name %></h1>
+				<p class="description"><%= room.description %></p>
+				<!-- <span> link_to "view room details", room %></span> -->
+				<p>
+					<% if current_user == @user %>
+						<%= link_to "Leave Room", leave_room_path(room.id), class: "btn btn-default btn-xs" %>
+						<%= link_to "Edit Details", edit_room_path(room.id), class: "btn btn-default btn-xs" %>
+					<% end %>
+					<% if current_user.try(:admin?) %>
+						<%= link_to "Delete Room", room_path(room.id), method: :delete, data: { confirm: "You sure?" }, class: "btn btn-default btn-xs" %>
+					<% end %>
+				</p>
+				<p> </p>
+				<h1>Roommates:</h1>
+				<ul>
+					<% room.users.each do |user|  %>
+						<% if user == current_user %>
+							<li class="<%= 'current_user' if user == current_user %>"><%= link_to "#{user.name} (you)", user  %></li>
+						<% else %>
+							<li><%= link_to user.name, user %></li>
+						<% end %>
+					<% end %>
+				</ul>
+			<% end %>
 		<% else %>
 			<p>You are not a member of any rooms at the moment. Create a new room and ask your friends to join it or join one of the exsiting rooms!</p>
 		<% end %>
@@ -22,19 +46,25 @@
 	<div class="col-md-8">
 	<section class="product_info">
 	<% if @user == current_user %>
-		<h1>My Products</h1>
+		<h1>My Products (<%= @user.products.count %>)</h1>
 	<% else %>
-		<h1>Products by <%= @user.name %></h1>
+		<h1>Products by <%= @user.name %> (<%= @user.products.count %>)</h1>
 	<% end %>
 		<% if @user.products.any? %>
-			<p>Number of products: <%= @user.products.count %></p>
-			<% user_products = @user.products %>
-			<p>Total Cost: <span class="product_price"><%= number_to_currency(@user.products.sum(:price), :unit => "€") %></span></p>
+
+			<% max_price = @user.products.order("price DESC").first %>
+			<% min_price = @user.products.order("price DESC").last %>
+
+			<p>Number of Products: <span class="product_price"><%= @user.products.count %></span> | Total Cost: <span class="product_price"><%= number_to_currency(@user.products.sum(:price), :unit => "€") %></span> | Most Expensive: <span class="product_price"><%= number_to_currency(max_price.price, :unit => "€") %></span> | Cheapest: <span class="product_price"><%= number_to_currency(min_price.price, :unit => "€") %></span></p>
+			
+			<h3 class="center">Product History</h3>
+			<br>
 			<ol>
-				<% @user.products.reverse_each do |product| %>
+			<% user_products = @user.products.order("created_at DESC").paginate(:page => params[:page], :per_page => 10) %>
+				<% user_products.each do |product| %>
 					<li>
 						<p class="product_name">
-							<%= product.name  %>  
+							<%= product.created_at.strftime('%b %d, %Y %H:%M') %> | <%= product.name  %>  
 							<span class="product_price">
 								<%= number_to_currency(product.price, :unit => "€") %>
 							</span>
@@ -42,7 +72,9 @@
 						<% unless product.description == "" %>
 							<p class="product_description">(<%= product.description %>)</p>
 						<% end %>
-						<p class="product_date_author"><%= product.created_at.strftime('%b %d, %Y') %> | by <%= User.find(product.user_id).name %></p>
+						<% unless product.created_at == product.updated_at %>
+							<small><p class="product_date_author">Updated at: <span class="date"><%= product.updated_at.strftime('%b %d, %Y %H:%M') %></p></small>
+						<% end %>
 						<% if @user || current_user.try(:admin?) %>
 							<p class="product_buttons">
 							<%= link_to "Edit", edit_product_path(product.id), class: "btn btn-default btn-xs" %>
@@ -53,6 +85,7 @@
 					</li>
 				<% end %>
 			</ol>
+			<%= will_paginate user_products, :previous_label => '&laquo;', :next_label => '&raquo;', :class => 'center' %>
 		<% else %>
 			<p>No products yet.</p>
 		<% end %>

@@ -50,7 +50,7 @@ class RoomsController < ApplicationController
     @room = Room.find(params[:id])
     current_user.rooms << @room
     current_user.save
-    flash[:success] = "Joined #{@room.name}!"
+    flash[:success] = "You successfully joined #{@room.name}!"
     redirect_to root_path
   end
 

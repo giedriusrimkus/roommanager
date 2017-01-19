@@ -1,22 +1,26 @@
 <% current_user.rooms.each do |room| %>
-<h1><%= room.name %></h1>
-<p class="description"><%= room.description %></p>
-<!-- <span> link_to "view room details", room %></span> -->
-<% current_user_membership = Membership.find_by_room_id(room.id) %>
-<% if current_user.rooms.first.id == current_user_membership.user_id %>
+	<h1><%= room.name %></h1>
+	<p class="description"><%= room.description %></p>
+	<!-- <span> link_to "view room details", room %></span> -->
+	<% room_membership = Membership.find_by_room_id(room.id) %>
 	<p>
-	<%= link_to "Leave Room", leave_room_path(room.id), class: "btn btn-default btn-xs" %>
-	<%= link_to "Edit Details", edit_room_path(room.id), class: "btn btn-default btn-xs" %>
-	<% if current_user.try(:admin?) %>
-	<%= link_to "Delete Room", room_path(room.id), method: :delete, data: { confirm: "You sure?" }, class: "btn btn-default btn-xs" %>
-	<% end %>
-<% end %>
+		<% if room.id == room_membership.user_id || current_user.try(:admin?) %>
+			<%= link_to "Leave Room", leave_room_path(room.id), class: "btn btn-default btn-xs" %>
+			<%= link_to "Edit Details", edit_room_path(room.id), class: "btn btn-default btn-xs" %>
+		<% end %>
+		<% if current_user.try(:admin?) %>
+			<%= link_to "Delete Room", room_path(room.id), method: :delete, data: { confirm: "You sure?" }, class: "btn btn-default btn-xs" %>
+		<% end %>
 	</p>
-<p> </p>
-<h1>Roommates:</h1>
-<ul>
-<% room.users.each do |user|  %>
-	<li><%= link_to user.name, user %></li>
-<% end %>
-</ul>
+	<p> </p>
+	<h1>Roommates:</h1>
+	<ul>
+	<% room.users.each do |user|  %>
+		<% if user == current_user %>
+			<li class="<%= 'current_user' if user == current_user %>"><%= link_to "#{user.name} (you)", user  %></li>
+		<% else %>
+			<li><%= link_to user.name, user %></li>
+		<% end %>
+	<% end %>
+	</ul>
 <% end %>

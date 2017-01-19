@@ -36,9 +36,21 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Tools <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><%= link_to "All Users", users_path %></li>
-            <li><%= link_to "All Rooms", rooms_path %></li>
-            <li><%= link_to "All Products", products_path %></li>
+            <li>
+              <%= link_to users_path do %>
+                All Users (<%= User.count %>)
+              <% end %>
+            </li>
+            <li>
+              <%= link_to rooms_path do %>
+                All Rooms (<%= Room.count %>)
+              <% end %>
+            </li>
+            <li>
+              <%= link_to products_path do %>
+                All Products (<%= Product.count %>)
+              <% end %>
+            </li>
             <li role="separator" class="divider"></li>
             <li><a href="#">link</a></li>
             <li role="separator" class="divider"></li>

@@ -1,3 +1,10 @@
 <% provide(:title, "Update Product") %>
-<h2 class="post_title">Editing "<%= @product.name %>"</h2>
-<%= render "products/form" %>
+<h1>Edit "<%= @product.name %>"</h1>
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-centered">
+		<div class="form-group">
+			<%= render "products/form" %>
+		</div>
+	</div>
+</div>
+
