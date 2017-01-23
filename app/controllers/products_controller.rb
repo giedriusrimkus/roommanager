@@ -1,5 +1,8 @@
 class ProductsController < ApplicationController
-	
+
+	before_action :logged_in_user
+	before_action :admin_user, only: [:index]
+
 	def index
 		@products = Product.all.order('created_at DESC')
 	end
@@ -14,9 +17,7 @@ class ProductsController < ApplicationController
 	end
 
 	def create
-
 		@product = current_user.products.build(product_params)
-
 		if @product.save
 			flash[:success] = "Product submitted!"
 			redirect_to root_path # user_path(current_user.id)

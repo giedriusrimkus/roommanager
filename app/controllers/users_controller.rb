@@ -1,18 +1,18 @@
 class UsersController < ApplicationController
 
-	before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
-	before_action :correct_user,   only: [:edit, :update]
-	before_action :admin_user,     only: :destroy
+	before_action :logged_in_user, except: [:new, :create]
+	before_action :correct_or_admin_user, only: [:edit, :update, :cancel_account]
+	before_action :admin_user,     only: [:destroy, :index, :activate, :deactivate]
 
 
 	def show
-		@user = User.find(params[:id])
+		@user = User.friendly.find(params[:id])
 		# @products = @user.products.paginate(page: params[:page])
 		# debugger
 	end
 
 	def index
-		@users = User.paginate(page: params[:page])
+		@users = User.all.order('created_at DESC').paginate(page: params[:page])
 	end
 
 
@@ -32,13 +32,13 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-		@user = User.find(params[:id])
+		@user = User.friendly.find(params[:id])
 	end
 
   	def update
-  		@user = User.find(params[:id])
+  		@user = User.friendly.find(params[:id])
   		if @user.update_attributes(user_params)
-			flash[:success] = "Details Updated"
+			flash[:success] = "User details updated!"
 			redirect_to @user
 		else
 			render 'edit'
@@ -46,17 +46,34 @@ class UsersController < ApplicationController
   	end
 
 	def destroy
-		User.find(params[:id]).destroy
-		flash[:success] = "User deleted"
+		User.friendly.find(params[:id]).destroy
+		flash[:info] = "User deleted"
 		redirect_to users_url
 	end
 
 	def cancel_account
-		@user = User.find(params[:id])
+		@user = User.friendly.find(params[:id])
 		@user.destroy
-		flash[:info] = "Account removed"
+		flash[:info] = "Your account has been removed!"
 		redirect_to root_url
 	end
+
+	def activate
+		@user = User.friendly.find(params[:id])
+		@user.activate
+		@user.save
+		flash[:success] = "User activated!"
+		redirect_to users_url
+	end
+
+	def deactivate
+		@user = User.friendly.find(params[:id])
+		@user.deactivate
+		@user.save
+		flash[:success] = "User de-activated!"
+		redirect_to users_url
+	end
+
 
 	private
 
@@ -64,27 +81,5 @@ class UsersController < ApplicationController
 	      params.require(:user).permit(:name, :email, :password,
 	                                   :password_confirmation)
 	    end
-
-
-	    def logged_in_user
-	      	unless logged_in?
-	      		store_location
-		        flash[:danger] = "Please log in."
-		        redirect_to login_url
-	      	end
-    	end
-
-
-		def correct_user
-			@user = User.find(params[:id])
-			redirect_to(root_url) unless current_user?(@user)
-		end
-
-		# user.toggle!(:admin)
-
-		def admin_user
-			redirect_to(root_url) unless current_user.admin?
-			flash[:danger] = "Access is denied."
-		end
 
 end

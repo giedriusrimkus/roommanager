@@ -1,5 +1,7 @@
 class RoomsController < ApplicationController
 
+  before_action :logged_in_user
+
   def show
   	@room = Room.find(params[:id])
 

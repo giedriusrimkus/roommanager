@@ -51,6 +51,11 @@
                 All Products (<%= Product.count %>)
               <% end %>
             </li>
+            <li>
+              <%= link_to memberships_path do %>
+                All Memberships (<%= Membership.count %>)
+              <% end %>
+            </li>
             <li role="separator" class="divider"></li>
             <li><a href="#">link</a></li>
             <li role="separator" class="divider"></li>

@@ -1,13 +1,18 @@
 Rails.application.routes.draw do
 
-  get 'memberships/index'
+  get 'memberships', to: 'memberships#index'
 
   resources :rooms
   get 'rooms', to: 'rooms#index'
   match 'rooms/:id/join', to: 'rooms#join', :via => :get, :as => :join_room
   match 'posts/:id/leave' => 'rooms#leave', :via => :get, :as => :leave_room
 
-  match 'users/:id' => 'users#cancel_account', :via => :delete, :as => :cancel_account
+  match 'users/:id/cancel_account' => 'users#cancel_account', :via => :delete, :as => :cancel_account
+
+  match 'users/:id/activate' => 'users#activate', :via => :get, :as => :admin_activate
+  match 'users/:id/deactivate' => 'users#deactivate', :via => :get, :as => :admin_deactivate
+  # post 'users/:id/deactivate' => 'users#deactivate', :as => :admin_deactivate
+
 
   get 'rooms/new'
 

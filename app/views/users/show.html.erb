@@ -45,12 +45,12 @@
 	</aside>
 	<div class="col-md-8">
 	<section class="product_info">
-	<% if @user == current_user %>
-		<h1>My Products (<%= @user.products.count %>)</h1>
-	<% else %>
-		<h1>Products by <%= @user.name %> (<%= @user.products.count %>)</h1>
-	<% end %>
-		<% if @user.products.any? %>
+		<% if @user == current_user %>
+			<h1>My Products (<%= @user.products.count %>)</h1>
+		<% else %>
+			<h1>Products by <%= @user.name %> (<%= @user.products.count %>)</h1>
+		<% end %>
+			<% if @user.products.any? %>
 
 			<% max_price = @user.products.order("price DESC").first %>
 			<% min_price = @user.products.order("price DESC").last %>

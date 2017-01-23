@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 	has_many :rooms, through: :memberships
 
 	attr_accessor :remember_token, :activation_token, :reset_token
+	
 	before_save :downcase_email
 	before_create :create_activation_digest
 
@@ -18,8 +19,17 @@ class User < ActiveRecord::Base
 	uniqueness: { case_sensitive: false }
 
 	has_secure_password
-	# validates :password, presence: true, length: { minimum: 3 }
 
+	# validates :password, presence: true, length: {minimum: 5, maximum: 120}, on: :create
+	# validates :password, length: {minimum: 5, maximum: 120}, on: :update, allow_blank: true
+
+	extend FriendlyId
+  	friendly_id :slug_candidates, use: :slugged
+
+  	def slug_candidates
+  		[:name] + Array.new(6) {|index| [:name, index+2]}
+	end
+	
 	# Returns the hash digest of the given string.
 	def User.digest(string)
 		cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
@@ -51,6 +61,11 @@ class User < ActiveRecord::Base
 	def activate
 	    update_attribute(:activated,    true)
 	    update_attribute(:activated_at, Time.zone.now)
+  	end
+
+  	def deactivate
+	    update_attribute(:activated,    false)
+	    update_attribute(:activated_at, nil)
   	end
 
   	def send_activation_email

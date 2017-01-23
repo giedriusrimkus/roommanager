@@ -32,6 +32,8 @@ gem 'bootstrap-will_paginate', '0.0.10'
 gem 'bcrypt', '~> 3.1.7' # encrypt databse for passwords. Use ActiveModel has_secure_password
 
 gem 'puma' # app server
+
+gem 'friendly_id', '~> 5.1.0'
  
 # Use Unicorn as the app server
 # gem 'unicorn'
