@@ -9,9 +9,9 @@
 		<p class="buttons center">
 <!-- 			if current_user.rooms.include? room %>
  -->
-					<%= link_to "Leave Room", new_memberships_path(:user_id => current_user.id, :room_id => room.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-xs btn-default" if current_user.rooms.include? room %>
+					<%= link_to "Leave Room", room_membership_path(room, room.memberships.find_by_user_id(current_user.id)), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-xs btn-default" if current_user.rooms.include? room %>
 					 <!-- render 'join_form' %> -->
-					 <%= link_to "Join Room", memberships_path(:user_id => current_user.id, :room_id => room.id), :method => :post, class: "btn btn-xs btn-default #{'disabled' if current_user.rooms.any? }" unless current_user.rooms.include? room %>
+					 <%= link_to "Join Room", room_memberships_path(room), :method => :post, class: "btn btn-xs btn-default #{'disabled' if current_user.rooms.any? }" unless current_user.rooms.include? room %>
 				
 			<% if current_user.try(:admin?) %>
 				<%= link_to "Delete Room", room_path(room.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default btn-xs" %>

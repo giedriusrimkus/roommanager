@@ -20,8 +20,8 @@ class User < ActiveRecord::Base
 
 	has_secure_password
 
-	# validates :password, presence: true, length: {minimum: 5, maximum: 120}, on: :create
-	# validates :password, length: {minimum: 5, maximum: 120}, on: :update, allow_blank: true
+	validates :password, presence: true, length: {minimum: 5, maximum: 120}, on: :create
+	validates :password, length: {minimum: 5, maximum: 120}, on: :update, allow_blank: true
 
 	extend FriendlyId
   	friendly_id :slug_candidates, use: :slugged
@@ -93,6 +93,24 @@ class User < ActiveRecord::Base
 	     self.send_activation_email
 	     self.save
   	end
+
+  	def join(room)
+    	memberships.create!(room_id: room.id)
+    	# current_user.rooms << @room
+	end
+
+	def leave(room)
+		rooms.delete(room)
+	end
+
+	# Returns true if the current user is member of the room
+	def member?(room)
+		rooms.include?(room)
+	end
+
+	def member_since?(room)
+		memberships.first.created_at if rooms.include?(room)
+	end
 
 	private
 

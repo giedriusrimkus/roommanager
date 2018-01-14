@@ -18,3 +18,5 @@ User.create!(name:  "Example User",
 				activated_at: Time.zone.now)
 
 end
+
+SUPPORT TECHNICIAN TO INTERNATIONAL FINTECH COMPANY

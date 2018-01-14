@@ -8,7 +8,7 @@ class RoomsController < ApplicationController
   end
 
   def index
-  	@rooms = Room.all
+  	@rooms = Room.all.order('created_at DESC')
   end
 
   def new
@@ -19,7 +19,7 @@ class RoomsController < ApplicationController
   	@room = Room.new(room_params)
     current_user.rooms << @room
   	if @room.save
-  		flash[:success] = "Room Created"
+  		flash[:success] = "Room created!"
   		redirect_to root_path
   	else
   		render 'new'
@@ -48,21 +48,21 @@ class RoomsController < ApplicationController
     redirect_to root_path
   end
 
-  def join
-    @room = Room.find(params[:id])
-    current_user.rooms << @room
-    current_user.save
-    flash[:success] = "You successfully joined #{@room.name}!"
-    redirect_to root_path
-  end
+  # def join
+  #   @room = Room.find(params[:id])
+  #   current_user.rooms << @room
+  #   current_user.save
+  #   flash[:success] = "You joined #{@room.name}!"
+  #   redirect_to root_path
+  # end
 
-  def leave
-    @room = Room.find(params[:id])
-    current_user.rooms.delete(@room)
-    current_user.save
-    flash[:info] = "Left #{@room.name}"
-    redirect_to root_path
-  end
+  # def leave
+  #   @room = Room.find(params[:id])
+  #   current_user.rooms.delete(@room)
+  #   current_user.save
+  #   flash[:info] = "Left #{@room.name}"
+  #   redirect_to root_path
+  # end
 
 
 	private

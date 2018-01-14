@@ -47,6 +47,36 @@
 		<% end %>
 		<%= will_paginate room_products_and_memberships, :previous_label => '&laquo;', :next_label => '&raquo;', :class => 'center' %>
 	</ul>
+
+	<h1>Product History</h1>
+	<% if room_products.any? %>
+		<ul class="product_history">
+		<% room_products.each do |product| %>
+			<li>
+				<span class="date"><%= product.created_at.strftime('%b %d, %Y %H:%M') %></span>
+				<span class="name"><%= product.name %></span>
+				<span class="price"><%= number_to_currency(product.price, :unit => "€") %></span>
+				<span class="author">by <%= User.find(product.user_id).name %></span>
+				<% unless product.description == "" %>
+					<p class="description">(<%= product.description %>)</p>
+				<% end %>
+				<% unless product.created_at == product.updated_at %>
+					<small><p>Updated at: <span class="date"><%= product.updated_at.strftime('%b %d, %Y %H:%M') %></p></small>
+				<% end %>
+				<% if current_user.id == product.user_id || current_user.try(:admin?)  %>
+					<p class="buttons">
+						<%= link_to "Edit", edit_product_path(product.id), class: "btn btn-default btn-xs" %>
+						<%= link_to "Delete", product_path(product.id), class: "btn btn-default btn-xs", method: :delete, data: { confirm: "You sure?" } %>
+					</p>
+				<% end %>
+			</li>
+		<% end %>
+		</ul>
+		 <!-- will_paginate room_products, :previous_label => '&laquo;', :next_label => '&raquo;', :class => 'center' %> -->
+
+	<% else %>
+		<p class="center">There are no products in this room yet.</p>
+	<% end %>
 <% else %>
 	<p>You are member of more than one room at the moment. Please leave one of the rooms!</p>
 <% end%>

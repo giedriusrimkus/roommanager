@@ -7,6 +7,8 @@ class UsersController < ApplicationController
 
 	def show
 		@user = User.friendly.find(params[:id])
+		@max_price = @user.products.order("price DESC").first
+		@min_price = @user.products.order("price DESC").last
 		# @products = @user.products.paginate(page: params[:page])
 		# debugger
 	end

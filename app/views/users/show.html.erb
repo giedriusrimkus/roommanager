@@ -18,6 +18,7 @@
 				<p class="description"><%= room.description %></p>
 				<!-- <span> link_to "view room details", room %></span> -->
 				<p>
+				<p class="product_date_author">Member since: <%= @user.member_since?(room).strftime('%b %d, %Y %H:%M') %></p>
 					<% if current_user == @user %>
 						<%= link_to "Leave Room", leave_room_path(room.id), class: "btn btn-default btn-xs" %>
 						<%= link_to "Edit Details", edit_room_path(room.id), class: "btn btn-default btn-xs" %>
@@ -52,10 +53,7 @@
 		<% end %>
 			<% if @user.products.any? %>
 
-			<% max_price = @user.products.order("price DESC").first %>
-			<% min_price = @user.products.order("price DESC").last %>
-
-			<p>Number of Products: <span class="product_price"><%= @user.products.count %></span> | Total Cost: <span class="product_price"><%= number_to_currency(@user.products.sum(:price), :unit => "€") %></span> | Most Expensive: <span class="product_price"><%= number_to_currency(max_price.price, :unit => "€") %></span> | Cheapest: <span class="product_price"><%= number_to_currency(min_price.price, :unit => "€") %></span></p>
+			<p>Number of Products: <span class="product_price"><%= @user.products.count %></span> | Total Cost: <span class="product_price"><%= number_to_currency(@user.products.sum(:price), :unit => "€") %></span> | Most Expensive: <span class="product_price"><%= number_to_currency(@max_price.price, :unit => "€") %></span> | Cheapest: <span class="product_price"><%= number_to_currency(@min_price.price, :unit => "€") %></span></p>
 			
 			<h3 class="center">Product History</h3>
 			<br>

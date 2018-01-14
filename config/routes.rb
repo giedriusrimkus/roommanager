@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
 
-  get 'memberships', to: 'memberships#index'
+  root 'pages#home'
+
+  # resources :rooms do
+  #   # resources :memberships,       only: [:create, :destroy]
+  # end
+
+  resources :memberships
+  # get 'memberships', to: 'memberships#index'
+
 
   resources :rooms
   get 'rooms', to: 'rooms#index'
@@ -22,8 +30,11 @@ Rails.application.routes.draw do
 
   get 'sessions/new'
 
-  resources :users
-
+  resources :users do
+    resources :memberships
+    get 'memberships', to: 'memberships#index'
+  end
+  
   get 'users/new'
 
   get  '/signup',  to: 'users#new'
@@ -46,9 +57,6 @@ Rails.application.routes.draw do
   get 'pages/about'
 
   resources :products #,          only: [:create, :destroy]
-
-  root 'pages#home'
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
